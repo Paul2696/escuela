@@ -19,6 +19,7 @@ public class UI extends JFrame implements MapListener{
     AddIconListener iconListener = new AddIconListener();
     static final Map map = new Map();
     static final Kibus kibus = new Kibus();
+    JButton[][] buttons = new JButton[map.getDimensionX()][map.getDimensionY()];
 
     public UI(){
         super("Kibus World");
@@ -46,11 +47,16 @@ public class UI extends JFrame implements MapListener{
         initBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try{
-                    kibus.startSearchingHouse();
-                }catch(Exception e){
-                    label.setText("Add Kibus and his house first");
-                }
+                Thread t = new Thread() {
+                    public void run() {
+                        try {
+                            kibus.startSearchingHouse();
+                        } catch (Exception e) {
+                            label.setText("Add Kibus and his house first");
+                        }
+                    }
+                };
+                t.start();
             }
         });
         setKibusBtn.addActionListener(iconListener);
@@ -62,6 +68,7 @@ public class UI extends JFrame implements MapListener{
         rightPanel.add(slider);
         rightPanel.add(initBtn);
         mapPanel.setLayout(new GridLayout(15, 15));
+        initMap();
         update();
         add(mapPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.EAST);
@@ -71,20 +78,25 @@ public class UI extends JFrame implements MapListener{
         setVisible(true);
     }
 
+    private void initMap() {
+        int counter = 0;
+        for(int i =0; i < buttons.length; i++) {
+            for(int j = 0; j < buttons[i].length; j++) {
+                buttons[i][j] = new JButton();
+                buttons[i][j].addActionListener(iconListener);
+                buttons[i][j].setActionCommand(Integer.toString(counter));
+                mapPanel.add(buttons[i][j]);
+                counter++;
+            }
+        }
+    }
     public void update(){
             try {
-                mapPanel.removeAll();
-                mapPanel.revalidate();
-                mapPanel.repaint();
-                int counter = 0;
                 for (int i = 0; i < map.getDimensionX(); i++) {
                     for (int j = 0; j < map.getDimensionY(); j++) {
                         int coordinate = map.get(i, j);
-                        JButton button = new JButton();
-                        button.addActionListener(iconListener);
-                        button.setActionCommand(Integer.toString(counter));
-                        counter++;
-                        mapPanel.add(button);
+                        JButton button = buttons[i][j];
+                        button.setIcon(null);
                         Image image;
                         switch (coordinate) {
                             case Map.OBSTACLE:

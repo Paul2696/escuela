@@ -29,7 +29,7 @@ public class Kibus {
         }
         e = 2 * ay - ax;
 
-        for (i = 1; i <= ax; i++){
+        for (i = 0; i <= ax; i++){
             points.add(new Coord(x,y));
             if (e >= 0)	{
                 if (intercambio == 1){
@@ -82,8 +82,8 @@ public class Kibus {
                 if(map.get(coord.x, coord.y) == Map.OBSTACLE){
                     break;
                 }
-                map.set(coord.x, coord.y, Map.KIBUS, false);
-                map.set(actualCoordinate.x, actualCoordinate.y, Map.FREE, true);
+                map.set(actualCoordinate.x, actualCoordinate.y, Map.FREE, false);
+                map.set(coord.x, coord.y, Map.KIBUS, true);
                 actualCoordinate = coord;
             }
             route = getNewRoute();
