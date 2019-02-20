@@ -23,7 +23,7 @@ public class Map {
             map[coordenada1][coordenada2] = OBSTACLE;
             numberObstacles--;
         }
-        listener.mapChanged();
+        listener.mapChanged(false);
     }
 
     public int get(int x, int y){
@@ -51,18 +51,18 @@ public class Map {
         }
     }
 
-    public Coord set(int position, int value){
+    public Coord set(int position, int value, boolean withDelay){
         int coordenada1 = position / dimensionX;
         int coordenada2 = position % dimensionY;
         map[coordenada1][coordenada2] = value;
-        listener.mapChanged();
+        listener.mapChanged(withDelay);
         printArray();
         return new Coord(coordenada1, coordenada2);
     }
 
-    public void set(int x, int y, int value){
+    public void set(int x, int y, int value, boolean withDelay){
         map[x][y] = value;
-        listener.mapChanged();
+        listener.mapChanged(withDelay);
         printArray();
     }
 

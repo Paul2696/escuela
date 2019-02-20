@@ -114,8 +114,15 @@ public class UI extends JFrame implements MapListener{
     }
 
     @Override
-    public void mapChanged() {
+    public void mapChanged(boolean withDelay){
         update();
+        if(withDelay){
+            try{
+                Thread.sleep(1000);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     static class AddIconListener implements ActionListener {
@@ -139,22 +146,22 @@ public class UI extends JFrame implements MapListener{
                 try{
                     int position = Integer.parseInt(event.getActionCommand());
                     if(settingKibus){
-                        Coord coord = map.set(position, Map.KIBUS);
+                        Coord coord = map.set(position, Map.KIBUS, false);
                         kibus.setActualCoordinate(coord);
                         if(actualKibus != null){
                             position = Integer.parseInt(actualKibus.getActionCommand());
-                            map.set(position, Map.FREE);
+                            map.set(position, Map.FREE, false);
                         }
                         actualKibus = button;
                         settingKibus = false;
 
                     }
                     else if(settingHouse) {
-                        Coord coord = map.set(position, Map.HOUSE);
+                        Coord coord = map.set(position, Map.HOUSE, false);
                         kibus.setHouseCoordinate(coord);
                         if(actualHouse != null){
                             position = Integer.parseInt(actualHouse.getActionCommand());
-                            map.set(position, Map.FREE);
+                            map.set(position, Map.FREE, false);
                         }
                         actualHouse = button;
                         settingHouse = false;

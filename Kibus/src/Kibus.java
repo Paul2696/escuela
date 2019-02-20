@@ -77,11 +77,126 @@ public class Kibus {
                 houseCoordinate.x,
                 houseCoordinate.y
         );
-        for(Coord coord : route){
-            map.set(coord.x, coord.y, Map.KIBUS);
-            map.set(actualCoordinate.x, actualCoordinate.y, Map.FREE);
-            setActualCoordinate(coord);
+        while(!yaLlegue()){
+            for(Coord coord : route){
+                if(map.get(coord.x, coord.y) == Map.OBSTACLE){
+                    break;
+                }
+                map.set(coord.x, coord.y, Map.KIBUS, false);
+                map.set(actualCoordinate.x, actualCoordinate.y, Map.FREE, true);
+                actualCoordinate = coord;
+            }
+            route = getNewRoute();
         }
+    }
+
+    public List<Coord> getNewRoute(){
+        List<Coord> route = null;
+        List<Coord> temp = null;
+        for(Coord coord : getFreeSpaces()){
+            temp = bresenham(
+                    coord.x,
+                    coord.y,
+                    houseCoordinate.x,
+                    houseCoordinate.y
+            );
+            if(route == null || route.size() > temp.size()){
+                route = temp;
+            }
+        }
+        return route;
+    }
+
+    private boolean yaLlegue(){
+        return actualCoordinate.equals(houseCoordinate);
+    }
+
+
+
+    private List<Coord> getFreeSpaces(){
+        List<Coord> freeSpaces = new ArrayList<>();
+        //Upper Left
+        if(map.get(actualCoordinate.x - 1, actualCoordinate.y - 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y - 1));
+        }
+        //Upper
+        if(map.get(actualCoordinate.x, actualCoordinate.y - 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y - 1));
+        }
+        //Upper Right
+        if(map.get(actualCoordinate.x + 1, actualCoordinate.y - 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y -1));
+        }
+        //Right
+        if(map.get(actualCoordinate.x + 1, actualCoordinate.y) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y));
+        }
+        //Lower Right
+        if(map.get(actualCoordinate.x + 1, actualCoordinate.y + 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y + 1));
+        }
+        //Lower
+        if(map.get(actualCoordinate.x, actualCoordinate.y + 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y + 1));
+        }
+        //Lower Left
+        if(map.get(actualCoordinate.x - 1, actualCoordinate.y + 1) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y + 1));
+        }
+        //Left
+        if(map.get(actualCoordinate.x - 1, actualCoordinate.y) == Map.FREE){
+            freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y));
+        }
+        return freeSpaces;
+    }
+
+
+    private Coord calculateObstaclesAround(){
+        int obstaclesRight = 0;
+        int obstaclesLeft = 0;
+        int obstaclesUp = 0;
+        int obstaclesDown = 0;
+
+        //Get right Obstacles
+        if(map.get(actualCoordinate.x + 1, actualCoordinate.y+1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x + 1, actualCoordinate.y) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x + 1, actualCoordinate.y - 1) == Map.OBSTACLE){
+            obstaclesRight++;
+        }
+
+        //Get Down Obstacles
+        else if(map.get(actualCoordinate.x + 1, actualCoordinate.y + 1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x, actualCoordinate.y + 1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x - 1, actualCoordinate.y + 1 ) == Map.OBSTACLE){
+            obstaclesDown++;
+        }
+
+        //Get Left Obstacles
+        else if(map.get(actualCoordinate.x - 1, actualCoordinate.y + 1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x - 1, actualCoordinate.y) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x - 1, actualCoordinate.y - 1) == Map.OBSTACLE){
+            obstaclesLeft++;
+        }
+
+        //Get Upper Obstacles
+        else if(map.get(actualCoordinate.x - 1, actualCoordinate.y - 1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x, actualCoordinate.y - 1) == Map.OBSTACLE
+        ||
+        map.get(actualCoordinate.x + 1, actualCoordinate.y - 1) == Map.OBSTACLE){
+            obstaclesUp++;
+        }
+
+
+
+
+        return null;
     }
 
     public void setHouseCoordinate(Coord houseCoordinate) {

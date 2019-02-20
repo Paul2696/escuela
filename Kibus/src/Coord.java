@@ -7,4 +7,9 @@ public class Coord {
     public String toString() {
         return "Coord:[" + x + "," + y +"]";
     }
+
+    public boolean equals(Object obj){
+        Coord coord = (Coord)obj;
+        return coord.x == x && coord.y == y;
+    }
 }

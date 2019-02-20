@@ -1,3 +1,3 @@
 public interface MapListener {
-    public void mapChanged();
+    public void mapChanged(boolean withDelay);
 }
