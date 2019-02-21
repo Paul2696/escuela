@@ -53,6 +53,7 @@ public class UI extends JFrame implements MapListener{
                             kibus.startSearchingHouse();
                         } catch (Exception e) {
                             label.setText("Add Kibus and his house first");
+                            e.printStackTrace();
                         }
                     }
                 };
