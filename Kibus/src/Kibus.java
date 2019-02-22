@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.Random;
+import java.util.Date;
 
 public class Kibus {
     private Coord actualCoordinate;
@@ -98,7 +100,7 @@ public class Kibus {
                     flag = false;
                 }
             }
-            route = getNewRoute();
+            route = getNewRouteRandom();
         }
     }
 
@@ -124,40 +126,59 @@ public class Kibus {
         return actualCoordinate.equals(houseCoordinate);
     }
 
+    private List<Coord> getNewRouteRandom(){
+        List<Coord> freeSpaces = getFreeSpaces();
+        Random r = new Random(new Date().getTime());
+        int random = r.nextInt(freeSpaces.size());
+        Coord coord = freeSpaces.get(random);
+        return bresenham(coord.x,
+                coord.y,
+                houseCoordinate.x,
+                houseCoordinate.y);
+    }
+
 
 
     private List<Coord> getFreeSpaces(){
         List<Coord> freeSpaces = new ArrayList<>();
         //Upper Left
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) == Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y - 1));
         }
         //Upper
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x) == Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y - 1));
         }
         //Upper Right
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) == Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y -1));
         }
         //Right
-        if(map.get(actualCoordinate.y, actualCoordinate.x + 1) == Map.FREE){
+        if(map.get(actualCoordinate.y, actualCoordinate.x + 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y, actualCoordinate.x + 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y));
         }
         //Lower Right
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) == Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y + 1));
         }
         //Lower
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x) == Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y + 1));
         }
         //Lower Left
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) == Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y + 1));
         }
         //Left
-        if(map.get(actualCoordinate.y, actualCoordinate.x - 1) == Map.FREE){
+        if(map.get(actualCoordinate.y, actualCoordinate.x - 1) < Map.OBSTACLE &&
+                map.get(actualCoordinate.y, actualCoordinate.x - 1) >= Map.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y));
         }
         return freeSpaces;

@@ -27,6 +27,9 @@ public class Map {
     }
 
     public int get(int x, int y){
+        if(x < 0 || y < 0 || x >= getDimensionX() || y >= getDimensionY()){
+            return -1;
+        }
         return map[x][y];
     }
 

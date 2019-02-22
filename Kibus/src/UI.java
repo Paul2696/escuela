@@ -51,7 +51,9 @@ public class UI extends JFrame implements MapListener{
                     public void run() {
                         try {
                             kibus.startSearchingHouse();
-                        } catch (Exception e) {
+                        }catch(IllegalArgumentException e){
+                            label.setText("I got stuck!");
+                        }catch (Exception e) {
                             label.setText("Add Kibus and his house first");
                             e.printStackTrace();
                         }
@@ -131,7 +133,7 @@ public class UI extends JFrame implements MapListener{
         update();
         if(withDelay){
             try{
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch(Exception e){
                 e.printStackTrace();
             }
