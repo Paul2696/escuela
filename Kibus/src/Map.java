@@ -20,13 +20,16 @@ public class Map {
             int random = r.nextInt(((getMapSize() - 1) - 0) + 1) + 0;
             int coordenada1 = random / dimensionX;
             int coordenada2 = random % dimensionY;
-            map[coordenada1][coordenada2] = OBSTACLE;
+            map[coordenada2][coordenada1] = OBSTACLE;
             numberObstacles--;
         }
         listener.mapChanged(false);
     }
 
     public int get(int x, int y){
+        if(x < 0 || y < 0 || x >= getDimensionX() || y >= getDimensionY()){
+            return -1;
+        }
         return map[x][y];
     }
 
@@ -57,7 +60,7 @@ public class Map {
         map[coordenada1][coordenada2] = value;
         listener.mapChanged(withDelay);
         printArray();
-        return new Coord(coordenada1, coordenada2);
+        return new Coord(coordenada2, coordenada1);
     }
 
     public void set(int x, int y, int value, boolean withDelay){
