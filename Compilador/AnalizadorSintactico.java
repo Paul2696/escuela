@@ -78,6 +78,9 @@ public class AnalizadorSintactico {
                                 if(token.type == Token.COMMA){
                                     token = lexico.getNextToken();
                                 }
+                                else if(token.type == Token.DATA_TYPE){
+                                    return false;
+                                }
                             }
                         }
                         else{
