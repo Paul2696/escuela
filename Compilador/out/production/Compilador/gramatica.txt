@@ -1,0 +1,42 @@
+<PROGRAM>::=<FUNCTIONS><FUNCTION>
+<FUNCTIONS>::=empty
+<FUNCTIONS>::=<FUNCTIONS><FUNCTION>
+<FUNCTION>::=<DECLARATION>(<ARGLIST>){<CODE>}
+<ARGLIST>::=empty | <DECLARATION><NEXTARG>
+<NEXTARG>::= ,<DECLARATION><NEXTARG> | empty
+<CODE>::=return <IDENTIFIER>; | return <VALUE>; | <LINE>;<CODE>
+<LINE>::=<VARIABLE> | <ASSIGNATION>
+<ASSIGNATION>::=<IDENTIFIER>=<VALUE> | <IDENTIFIER>=<IDENTIFIER> | <IDENTIFIER>=<arithmeticOperation>
+| <IDENTIFIER>=<logicalOperation>
+<arithmeticOperation>::=<NUMBER><arithmeticOperator><nextOperation> | <NUMBER><arithmeticOperator><NUMBER>
+| <IDENTIFIER><arithmeticOperator><NUMBER> | <IDENTIFIER><arithmeticOperator><IDENTIFIER> | <NUMBER><arithmeticOperator><IDENTIFIER>
+<nexOperation>::= <NUMBER><arithmeticOperator><nextOperation> | <NUMBER><arithmeticOperator><NUMBER> | empty
+<logicalOperation>::=<IDENTIFIER><logicalOperator><IDENTIFIER> | !<IDENTIFIER>
+<VARIABLE>::=<DECLARATION> | <DECLARATION>=<VALUE>
+<VALUE>::=<BOOLEAN> | <NUMBER> | <CHAR>
+<CHAR>::='<LETTER>'
+<BOOLEAN>::= true | false
+<DECLARATION>::=<dataType><IDENTIFIER>
+<dataType>::=int | bool | char | float
+<IDENTIFIER>::=<LETTER><STRING>
+<LETTER>::=a...z | A...Z
+<STRING>::=<LETTER><STRING> | <DIGIT><STRING> | _<STRING> | empty
+<NUMBER>::=<DIGIT><NUMBER> | empty
+<DIGIT>::=0...9
+<arithmeticOperator>::= + | - | * | /
+<logicalOperator>::= < | > | == | <= | >= | && | ||
+
+PROGRAM -> FUNCTIONS FUNCTION -> FUNCTIONS FUNCTION FUNCTION -> FUNCTION FUNCTION -> DECLARATION(ARGLIST){CODE} FUNCTION
+-> dataType IDENTIFIER(ARGLIST){CODE} FUNCTION -> int IDENTIFIER(ARGLIST){CODE} FUNCTION -> int cola (ARGLIST){CODE} FUNCTION
+-> int cola (DECLARATION NEXTARG){CODE} FUNCTION -> int  cola (int x NEXTARG){CODE} FUNCTION
+-> int cola (int x, DECLARATION NEXTARG) {CODE} FUNCTION -> int cola (int x, int y NEXTARG){CODE} FUNCTION
+-> int cola (int x, int y){CODE} FUNCTION -> int cola (int x, int y){LINE;CODE} FUNCTION
+-> int cola (int x, int y){VARIABLE;CODE} FUNCTION -> int cola(int x, int y){int variable;CODE} FUNCTION
+-> int cola (int x, int y){int variable;LINE;CODE} FUNCTION -> int cola (int x, int y){int variable;ASSIGNATION;CODE} FUNCTION
+-> int cola (int x, int y){int variable;IDENTIFIER=arithmeticOperation;CODE} FUNCTION
+-> int cola (int x, int y){int variable;variable=arithmeticOperation>;CODE} FUNCTION
+-> int cola (int x, int y){int variable;variable=IDENTIFIER arithmeticOperator IDENTIFIER;CODE} FUNCTION
+-> int cola (int x, int y){int variable;variable=x arithmeticOperator IDENTIFIER; CODE} FUNCTION
+-> int cola (int x, int y){int variable;variable=x + y; CODE} FUNCTION
+-> int cola (int x, int y){int variable;variable=x + y; return variable;} FUNCTION
+-> int cola (int x, int y){int variable;variable=x + y; return variable;}
