@@ -147,8 +147,6 @@ public class UI extends JFrame implements MapListener{
         rightPanel.add(mountainsSlider);
         rightPanel.add(new JLabel("Percentage of Rivers"));
         rightPanel.add(riversSlider);
-        rightPanel.add(new JLabel("Percentage of Plains"));
-        rightPanel.add(plainSlider);
         rightPanel.add(new JLabel("Percentage of Ravines"));
         rightPanel.add(ravineSlider);
         rightPanel.add(training);

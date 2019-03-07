@@ -144,6 +144,6 @@ public class Map {
             buff.append("\n\r");
         }
         buff.append("]");
-        System.out.println(buff);
+        //System.out.println(buff);
     }
 }

@@ -78,4 +78,8 @@ public class Effort {
         return nodes.equals(((Effort) o).getNodes());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodes);
+    }
 }

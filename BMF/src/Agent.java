@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Date;
+import java.util.*;
 
 public class Agent {
     public static final double[] MOMBO_EFFORTS = {1.0, 2.5, 0.3, 1.5};
@@ -14,7 +11,9 @@ public class Agent {
     private int agentType;
     private Graph graph;
     private Node actualNode;
-    private List<Effort> efforts = new ArrayList<>();
+    private double maxEffort = 0;
+    private double minEffort = Integer.MAX_VALUE;
+    private double averageEffort = 0;
 
     public Agent(int agentType, Graph graph){
         this.agentType = agentType;
@@ -26,41 +25,47 @@ public class Agent {
     }
 
     public void startTraining() throws Exception{
-        int pastValue = Map.FREE;
         if(actualCoordinate == null){
             throw new Exception();
         }
-        List<Coord> visited = new ArrayList<>();
-        while(!yaLlegue(pastValue)){
-            Coord coord = getNextCoord(visited);
-            Node nextNode = graph.getNode(coord);
-            System.out.println(graph.nodes.containsKey(coord));
-            if(nextNode == null){
-                nextNode = new Node(coord);
-                graph.addNode(nextNode);
-                Effort effort = graph.createEdge(actualNode, nextNode);
-                setTerrainEffort(effort, map.get(coord.y, coord.x));
-                efforts.add(effort);
-            }
-            else{
-                Effort aux = new Effort();
-                aux.setNode1(actualNode);
-                aux.setNode2(nextNode);
-                aux = graph.getEdgeIfExists(aux);
-                if(aux == null){
-                    aux = graph.createEdge(actualNode, nextNode);
-                    setTerrainEffort(aux, map.get(coord.y, coord.x));
+        Coord initialCoord = actualCoordinate;
+        for(int i = 0; i < 5; i++){
+            int pastValue = Map.AGENT;
+            List<Coord> visited = new ArrayList<>();
+            List<Effort> efforts = new ArrayList<>();
+            while(!yaLlegue(pastValue, initialCoord)){
+                Coord coord = getNextCoord(visited);
+                Node nextNode = graph.getNode(coord);
+                if(nextNode == null){
+                    nextNode = new Node(coord);
+                    graph.addNode(nextNode);
+                    Effort effort = graph.createEdge(actualNode, nextNode);
+                    setTerrainEffort(effort, map.get(coord.y, coord.x));
+                    efforts.add(effort);
+                }
+                else{
+                    Effort aux = new Effort();
+                    aux.setNode1(actualNode);
+                    aux.setNode2(nextNode);
+                    aux = graph.getEdgeIfExists(aux);
+                    if(aux == null){
+                        aux = graph.createEdge(actualNode, nextNode);
+                        setTerrainEffort(aux, map.get(coord.y, coord.x));
+                    }
                     efforts.add(aux);
                 }
+                map.set(actualCoordinate.y, actualCoordinate.x, pastValue, false);
+                pastValue = map.get(coord.y, coord.x);
+                map.set(coord.y, coord.x, agentType, true);
+                actualCoordinate = coord;
+                actualNode = nextNode;
+                visited.add(actualCoordinate);
             }
-            map.set(actualCoordinate.y, actualCoordinate.x, pastValue, false);
-            pastValue = map.get(coord.y, coord.x);
-            map.set(coord.y, coord.x, agentType, true);
-            actualCoordinate = coord;
-            actualNode = nextNode;
-            visited.add(actualCoordinate);
+            double routeEffort = calculateRouteEffort(efforts);
+            calculateAverageEffort(routeEffort);
+            calculateAdjustment(routeEffort, efforts);
         }
-        System.out.println("ya hay grafo");
+        System.out.println("Termina entrenamiento");
         //map.set(houseCoordinate.y, houseCoordinate.x, Map.HOUSE, false);
     }
 
@@ -79,8 +84,13 @@ public class Agent {
         return coord;
     }
 
-    private boolean yaLlegue(int pastValue){
-        return pastValue == Map.HOUSE;
+    private boolean yaLlegue(int pastValue, Coord initialCoord){
+        if(pastValue == Map.HOUSE){
+            map.set(actualCoordinate.y, actualCoordinate.x, Map.HOUSE, false);
+            actualCoordinate = initialCoord;
+            return true;
+        }
+        return false;
     }
 
 
@@ -143,7 +153,60 @@ public class Agent {
         return null;
     }
 
-    public void setTerrainEffort(Effort effort, int terrainType){
+    private double calculateRouteEffort(List<Effort> efforts){
+        double routeEffort = 0;
+        if(agentType == Map.MOMBO){
+            for(Effort effort : efforts){
+                routeEffort += effort.geteM();
+            }
+        }
+        else if(agentType == Map.PIROLO){
+            for(Effort effort : efforts){
+                routeEffort += effort.geteP();
+            }
+        }
+        else if(agentType == Map.LUCAS){
+            for(Effort effort : efforts){
+                routeEffort += effort.geteL();
+            }
+        }
+        return routeEffort;
+    }
+
+     private void calculateAverageEffort(double routeEffort){
+        if(maxEffort < routeEffort){
+            maxEffort = routeEffort;
+        }
+        if(minEffort > routeEffort){
+            minEffort = routeEffort;
+        }
+        averageEffort = (maxEffort + minEffort) / 2;
+     }
+
+     private void calculateAdjustment(double routeEffort, List<Effort> efforts){
+        double adjustment = routeEffort - averageEffort;
+        if(routeEffort < averageEffort){
+            System.out.println("Prize: " + adjustment);
+        }
+        else if(routeEffort > averageEffort){
+            System.out.println("Punish: " + adjustment);
+        }
+        Set<Effort> effortsSet = new HashSet<>(efforts);
+        for(Effort effort : effortsSet){
+            if(agentType == Map.MOMBO){
+                effort.setwM(effort.getwM() + adjustment);
+            }
+            else if(agentType == Map.PIROLO){
+                effort.setwP(effort.getwP() + adjustment);
+            }
+            else if(agentType == Map.LUCAS){
+                effort.setwL(effort.getwL() + adjustment);
+            }
+        }
+     }
+
+
+    private void setTerrainEffort(Effort effort, int terrainType){
         if(terrainType < Map.AGENT) {
             if (agentType == Map.MOMBO) {
                 effort.seteM(MOMBO_EFFORTS[terrainType]);
@@ -154,6 +217,7 @@ public class Agent {
             }
         }
     }
+
 
     public void setActualNode(Node actualNode){
         this.actualNode = actualNode;
