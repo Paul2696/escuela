@@ -20,10 +20,11 @@ public class UI extends JFrame implements MapListener{
     JPanel mapPanel = new JPanel();
     JCheckBox training;
     AddIconListener iconListener = new AddIconListener();
-    static final Map map = new Map();
+    static final Mapa map = new Mapa();
     static final Agent agent = new Agent(0, null);
     static Coord agentsCoord = new Coord(0, 0);
     static Node initialNode;
+    static Node houseNode;
     Graph graph = new Graph();
     JButton[][] buttons = new JButton[map.getDimensionX()][map.getDimensionY()];
 
@@ -104,23 +105,28 @@ public class UI extends JFrame implements MapListener{
                     public void run() {
                         try {
                             graph.addNode(initialNode);
-                            Agent agent = new Agent(Map.MOMBO, graph);
-                            agent.setActualCoordinate(agentsCoord);
-                            agent.setActualNode(initialNode);
-                            agent.setMap(map);
-                            agent.startTraining();
-                            agent = new Agent(Map.PIROLO, graph);
-                            agent.setActualCoordinate(agentsCoord);
-                            agent.setActualNode(initialNode);
-                            agent.setMap(map);
-                            agent.startTraining();
-                            agent = new Agent(Map.LUCAS, graph);
-                            agent.setActualCoordinate(agentsCoord);
-                            agent.setActualNode(initialNode);
-                            agent.setMap(map);
-                            agent.startTraining();
+                            Agent mombo = new Agent(Mapa.MOMBO, graph);
+                            mombo.setActualCoordinate(agentsCoord);
+                            mombo.setActualNode(initialNode);
+                            mombo.setMap(map);
+                            mombo.startTraining();
+                            Agent pirolo = new Agent(Mapa.PIROLO, graph);
+                            pirolo.setActualCoordinate(agentsCoord);
+                            pirolo.setActualNode(initialNode);
+                            pirolo.setMap(map);
+                            pirolo.startTraining();
+                            Agent lucas = new Agent(Mapa.LUCAS, graph);
+                            lucas.setActualCoordinate(agentsCoord);
+                            lucas.setActualNode(initialNode);
+                            lucas.setMap(map);
+                            lucas.startTraining();
+                            mombo.searchHouse(houseNode, initialNode);
+                            pirolo.searchHouse(houseNode, initialNode);
+                            lucas.searchHouse(houseNode, initialNode);
+
                         }catch(IllegalArgumentException e){
                             label.setText("I got stuck!");
+                            e.printStackTrace();
                         }catch (Exception e) {
                             label.setText("Add Kibus and his house first");
                             e.printStackTrace();
@@ -192,77 +198,77 @@ public class UI extends JFrame implements MapListener{
                     Image image;
                     ImageIcon io;
                     switch (coordinate) {
-                        case Map.OBSTACLE:
+                        case Mapa.OBSTACLE:
                             image = ImageIO.read(getClass().getResource("Obstacle.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.MOUNTAIN:
+                        case Mapa.MOUNTAIN:
                             image = ImageIO.read(getClass().getResource("mountain.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.RIVER:
+                        case Mapa.RIVER:
                             image = ImageIO.read(getClass().getResource("river.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                       /* case Map.PLAIN:
+                       /* case Mapa.PLAIN:
                             image = ImageIO.read(getClass().getResource("plain.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;*/
 
-                        case Map.RAVINE:
+                        case Mapa.RAVINE:
                             image = ImageIO.read(getClass().getResource("ravine.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.AGENT:
+                        case Mapa.AGENT:
                             image = ImageIO.read(getClass().getResource("agent.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.MOMBO:
+                        case Mapa.MOMBO:
                             image = ImageIO.read(getClass().getResource("mombo.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.PIROLO:
+                        case Mapa.PIROLO:
                             image = ImageIO.read(getClass().getResource("pirolo.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.LUCAS:
+                        case Mapa.LUCAS:
                             image = ImageIO.read(getClass().getResource("lucas.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.HOUSE:
+                        case Mapa.HOUSE:
                             image = ImageIO.read(getClass().getResource("house.png"));
                             io = new ImageIcon(image);
                             io.setDescription(Integer.toString(coordinate));
                             button.setIcon(io);
                             break;
 
-                        case Map.FREE:
+                        case Mapa.FREE:
                             break;
 
                     }
@@ -279,7 +285,7 @@ public class UI extends JFrame implements MapListener{
             update();
             if(withDelay){
                 try{
-                    Thread.sleep(50);
+                    Thread.sleep(500);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -317,7 +323,7 @@ public class UI extends JFrame implements MapListener{
                         if(actualKibus != null){
                             pastPosition = Integer.parseInt(actualKibus.getActionCommand());
                         }
-                        Coord coord = map.setObjects(position, pastPosition, Map.AGENT);
+                        Coord coord = map.setObjects(position, pastPosition, Mapa.AGENT);
                         agentsCoord = coord;
                         initialNode = new Node(agentsCoord);
                         actualKibus = button;
@@ -329,7 +335,8 @@ public class UI extends JFrame implements MapListener{
                         if(actualHouse != null){
                             pastPosition = Integer.parseInt(actualHouse.getActionCommand());
                         }
-                        Coord coord = map.setObjects(position, pastPosition, Map.HOUSE);
+                        Coord coord = map.setObjects(position, pastPosition, Mapa.HOUSE);
+                        houseNode = new Node(coord);
                         actualHouse = button;
                         settingHouse = false;
                     }

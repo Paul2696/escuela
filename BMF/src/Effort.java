@@ -7,9 +7,31 @@ public class Effort {
     private double eM;
     private double eP;
     private double eL;
-    private double wM = Integer.MAX_VALUE / 2;
-    private double wP = Integer.MAX_VALUE / 2;
-    private double wL = Integer.MAX_VALUE / 2;
+    private double wM = 500000;
+    private double wP = 500000;
+    private double wL = 500000;
+
+    public Node getNeighborNode(Node node){
+        for(Node n : nodes){
+            if(node != n){
+                return n;
+            }
+        }
+        return null;
+    }
+
+    public double getWeight(int agentType){
+        if(agentType == Mapa.MOMBO){
+            return wM;
+        }
+        if(agentType == Mapa.PIROLO){
+            return wP;
+        }
+        if(agentType == Mapa.LUCAS){
+            return wP;
+        }
+        return -1;
+    }
 
     public void seteM(double eM) {
         this.eM = eM;

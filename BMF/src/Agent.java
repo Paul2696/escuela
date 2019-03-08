@@ -7,7 +7,7 @@ public class Agent {
 
     private Coord actualCoordinate;
     private Coord houseCoordinate;
-    private Map map;
+    private Mapa map;
     private int agentType;
     private Graph graph;
     private Node actualNode;
@@ -29,8 +29,8 @@ public class Agent {
             throw new Exception();
         }
         Coord initialCoord = actualCoordinate;
-        for(int i = 0; i < 5; i++){
-            int pastValue = Map.AGENT;
+        for(int i = 0; i < 500; i++){
+            int pastValue = Mapa.AGENT;
             List<Coord> visited = new ArrayList<>();
             List<Effort> efforts = new ArrayList<>();
             while(!yaLlegue(pastValue, initialCoord)){
@@ -42,6 +42,7 @@ public class Agent {
                     Effort effort = graph.createEdge(actualNode, nextNode);
                     setTerrainEffort(effort, map.get(coord.y, coord.x));
                     efforts.add(effort);
+                    actualNode.setNeighbor(effort);
                 }
                 else{
                     Effort aux = new Effort();
@@ -50,13 +51,14 @@ public class Agent {
                     aux = graph.getEdgeIfExists(aux);
                     if(aux == null){
                         aux = graph.createEdge(actualNode, nextNode);
-                        setTerrainEffort(aux, map.get(coord.y, coord.x));
                     }
+                    setTerrainEffort(aux, map.get(coord.y, coord.x));
                     efforts.add(aux);
+                    actualNode.setNeighbor(aux);
                 }
                 map.set(actualCoordinate.y, actualCoordinate.x, pastValue, false);
                 pastValue = map.get(coord.y, coord.x);
-                map.set(coord.y, coord.x, agentType, true);
+                map.set(coord.y, coord.x, agentType, false);
                 actualCoordinate = coord;
                 actualNode = nextNode;
                 visited.add(actualCoordinate);
@@ -66,7 +68,22 @@ public class Agent {
             calculateAdjustment(routeEffort, efforts);
         }
         System.out.println("Termina entrenamiento");
-        //map.set(houseCoordinate.y, houseCoordinate.x, Map.HOUSE, false);
+        //map.set(houseCoordinate.y, houseCoordinate.x, Mapa.HOUSE, false);
+    }
+
+    public void searchHouse(Node house, Node start){
+        Dijkstra dijkstra = new Dijkstra(graph, agentType);
+        dijkstra.dijkstra(start.coord);
+        Stack<Integer> route;
+        int pastValue = map.get(start.coord.y, start.coord.x);
+        route = dijkstra.getShortestPath(house, start);
+        while(!route.empty()){
+            int nodeNumber = route.pop();
+            Coord coord = graph.getNode(nodeNumber);
+            map.set(actualCoordinate.y, actualCoordinate.x, pastValue, false);
+            pastValue = map.get(coord.y, coord.x);
+            map.set(coord.y, coord.x, agentType, true);
+        }
     }
 
     private Coord getNextCoord(List<Coord> visited) {
@@ -85,8 +102,8 @@ public class Agent {
     }
 
     private boolean yaLlegue(int pastValue, Coord initialCoord){
-        if(pastValue == Map.HOUSE){
-            map.set(actualCoordinate.y, actualCoordinate.x, Map.HOUSE, false);
+        if(pastValue == Mapa.HOUSE){
+            map.set(actualCoordinate.y, actualCoordinate.x, Mapa.HOUSE, false);
             actualCoordinate = initialCoord;
             return true;
         }
@@ -98,56 +115,56 @@ public class Agent {
     private List<Coord> getFreeSpaces(){
         List<Coord> freeSpaces = new ArrayList<>();
         //Upper Left
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x - 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y - 1));
         }
         //Upper
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y - 1, actualCoordinate.x) >= Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y - 1));
         }
         //Upper Right
-        if(map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y - 1, actualCoordinate.x + 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y -1));
         }
         //Right
-        if(map.get(actualCoordinate.y, actualCoordinate.x + 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y, actualCoordinate.x + 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y, actualCoordinate.x + 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y, actualCoordinate.x + 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y));
         }
         //Lower Right
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x + 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x + 1, actualCoordinate.y + 1));
         }
         //Lower
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y + 1, actualCoordinate.x) >= Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x, actualCoordinate.y + 1));
         }
         //Lower Left
-        if(map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y + 1, actualCoordinate.x - 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y + 1));
         }
         //Left
-        if(map.get(actualCoordinate.y, actualCoordinate.x - 1) < Map.OBSTACLE &&
-                map.get(actualCoordinate.y, actualCoordinate.x - 1) >= Map.FREE){
+        if(map.get(actualCoordinate.y, actualCoordinate.x - 1) < Mapa.OBSTACLE &&
+                map.get(actualCoordinate.y, actualCoordinate.x - 1) >= Mapa.FREE){
             freeSpaces.add(new Coord(actualCoordinate.x - 1, actualCoordinate.y));
         }
         return freeSpaces;
     }
 
     public double[] getTerrainEffort(){
-        if(agentType == Map.MOMBO){
+        if(agentType == Mapa.MOMBO){
             return MOMBO_EFFORTS;
         }
-        else if(agentType == Map.PIROLO){
+        else if(agentType == Mapa.PIROLO){
             return PIROLO_EFFORTS;
         }
-        else if(agentType == Map.LUCAS){
+        else if(agentType == Mapa.LUCAS){
             return LUCAS_EFFORTS;
         }
         return null;
@@ -155,17 +172,17 @@ public class Agent {
 
     private double calculateRouteEffort(List<Effort> efforts){
         double routeEffort = 0;
-        if(agentType == Map.MOMBO){
+        if(agentType == Mapa.MOMBO){
             for(Effort effort : efforts){
                 routeEffort += effort.geteM();
             }
         }
-        else if(agentType == Map.PIROLO){
+        else if(agentType == Mapa.PIROLO){
             for(Effort effort : efforts){
                 routeEffort += effort.geteP();
             }
         }
-        else if(agentType == Map.LUCAS){
+        else if(agentType == Mapa.LUCAS){
             for(Effort effort : efforts){
                 routeEffort += effort.geteL();
             }
@@ -193,13 +210,13 @@ public class Agent {
         }
         Set<Effort> effortsSet = new HashSet<>(efforts);
         for(Effort effort : effortsSet){
-            if(agentType == Map.MOMBO){
+            if(agentType == Mapa.MOMBO){
                 effort.setwM(effort.getwM() + adjustment);
             }
-            else if(agentType == Map.PIROLO){
+            else if(agentType == Mapa.PIROLO){
                 effort.setwP(effort.getwP() + adjustment);
             }
-            else if(agentType == Map.LUCAS){
+            else if(agentType == Mapa.LUCAS){
                 effort.setwL(effort.getwL() + adjustment);
             }
         }
@@ -207,12 +224,12 @@ public class Agent {
 
 
     private void setTerrainEffort(Effort effort, int terrainType){
-        if(terrainType < Map.AGENT) {
-            if (agentType == Map.MOMBO) {
+        if(terrainType < Mapa.AGENT) {
+            if (agentType == Mapa.MOMBO) {
                 effort.seteM(MOMBO_EFFORTS[terrainType]);
-            } else if (agentType == Map.PIROLO) {
+            } else if (agentType == Mapa.PIROLO) {
                 effort.seteP(PIROLO_EFFORTS[terrainType]);
-            } else if (agentType == Map.LUCAS) {
+            } else if (agentType == Mapa.LUCAS) {
                 effort.seteL(LUCAS_EFFORTS[terrainType]);
             }
         }
@@ -227,7 +244,7 @@ public class Agent {
         this.houseCoordinate = houseCoordinate;
     }
 
-    public void setMap(Map map) {
+    public void setMap(Mapa map) {
         this.map = map;
     }
 }

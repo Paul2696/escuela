@@ -31,4 +31,11 @@ public class Graph {
         }
         return null;
     }
+
+    public Coord getNode(int nodeNumber){
+        int coordenada1 = nodeNumber / Mapa.dimensionX;
+        int coordenada2 = nodeNumber % Mapa.dimensionY;
+        Coord coord = new Coord(coordenada1, coordenada2);
+        return coord;
+    }
 }

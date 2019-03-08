@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class Map {
-    private int dimensionX = 15;
-    private int dimensionY = 15;
+public class Mapa {
+    public static int dimensionX = 15;
+    public static int dimensionY = 15;
     private MapListener listener;
     public static final int FREE = 0;
     public static final int MOUNTAIN = 1;
