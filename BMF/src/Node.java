@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Objects;
 
 public class Node implements Comparable<Node>{
     public Effort[] neighbor = new Effort[8];
@@ -39,9 +40,21 @@ public class Node implements Comparable<Node>{
         if(distance > node.distance){
             return 1;
         }
-        else if(distance < node.distance){
+        if(distance < node.distance){
             return -1;
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "coord=" + coord +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(coord);
     }
 }

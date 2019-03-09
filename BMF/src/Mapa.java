@@ -114,7 +114,7 @@ public class Mapa {
         return new Coord(coordenada2, coordenada1);
     }
 
-    public void set(int x, int y, int value, boolean withDelay){
+    public synchronized void set(int x, int y, int value, boolean withDelay){
         map[x][y] = value;
         listener.mapChanged(withDelay);
         printArray();

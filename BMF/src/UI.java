@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class UI extends JFrame implements MapListener{
+public class UI extends JFrame implements MapListener, TrainingListener{
     JSlider obstaclesSlider;
     JSlider mountainsSlider;
     JSlider riversSlider;
@@ -18,6 +18,8 @@ public class UI extends JFrame implements MapListener{
     JButton setHouseBtn;
     JButton initBtn;
     JPanel mapPanel = new JPanel();
+    JProgressBar trainingBar = new JProgressBar(0, 100);
+    static JLabel agentIcon = new JLabel();
     JCheckBox training;
     AddIconListener iconListener = new AddIconListener();
     static final Mapa map = new Mapa();
@@ -25,7 +27,11 @@ public class UI extends JFrame implements MapListener{
     static Coord agentsCoord = new Coord(0, 0);
     static Node initialNode;
     static Node houseNode;
-    Graph graph = new Graph();
+    static boolean trainingDone = false;
+    static Graph graph = new Graph();
+    static Agent mombo = new Agent(Mapa.MOMBO, graph);
+    static Agent pirolo = new Agent(Mapa.PIROLO, graph);
+    static Agent lucas = new Agent(Mapa.LUCAS, graph);
     JButton[][] buttons = new JButton[map.getDimensionX()][map.getDimensionY()];
 
     public UI(){
@@ -97,43 +103,81 @@ public class UI extends JFrame implements MapListener{
         //Setting buttons
         setAgentBtn = new JButton("Set Agent");
         setHouseBtn = new JButton("Set House");
-        initBtn = new JButton("Go!");
+        initBtn = new JButton("Start training!");
+        mombo.setListener(this);
+        pirolo.setListener(this);
+        lucas.setListener(this);
         initBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Thread t = new Thread() {
-                    public void run() {
-                        try {
-                            graph.addNode(initialNode);
-                            Agent mombo = new Agent(Mapa.MOMBO, graph);
-                            mombo.setActualCoordinate(agentsCoord);
-                            mombo.setActualNode(initialNode);
-                            mombo.setMap(map);
-                            mombo.startTraining();
-                            Agent pirolo = new Agent(Mapa.PIROLO, graph);
-                            pirolo.setActualCoordinate(agentsCoord);
-                            pirolo.setActualNode(initialNode);
-                            pirolo.setMap(map);
-                            pirolo.startTraining();
-                            Agent lucas = new Agent(Mapa.LUCAS, graph);
-                            lucas.setActualCoordinate(agentsCoord);
-                            lucas.setActualNode(initialNode);
-                            lucas.setMap(map);
-                            lucas.startTraining();
-                            mombo.searchHouse(houseNode, initialNode);
-                            pirolo.searchHouse(houseNode, initialNode);
-                            lucas.searchHouse(houseNode, initialNode);
-
-                        }catch(IllegalArgumentException e){
-                            label.setText("I got stuck!");
-                            e.printStackTrace();
-                        }catch (Exception e) {
-                            label.setText("Add Kibus and his house first");
-                            e.printStackTrace();
+                Thread t;
+                if(!trainingDone){
+                     t = new Thread() {
+                        public void run() {
+                            try {
+                                Image image;
+                                ImageIcon io;
+                                graph.addNode(initialNode);
+                                mombo.setActualCoordinate(agentsCoord);
+                                mombo.setActualNode(initialNode);
+                                mombo.setMap(map);
+                                image = ImageIO.read(getClass().getResource("mombo.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                mombo.startTraining();
+                                pirolo.setActualCoordinate(agentsCoord);
+                                pirolo.setActualNode(initialNode);
+                                pirolo.setMap(map);
+                                image = ImageIO.read(getClass().getResource("pirolo.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                pirolo.startTraining();
+                                lucas.setActualCoordinate(agentsCoord);
+                                lucas.setActualNode(initialNode);
+                                lucas.setMap(map);
+                                image = ImageIO.read(getClass().getResource("lucas.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                lucas.startTraining();
+                                initBtn.setText("Start house searching!");
+                                trainingDone = true;
+                            }catch(IllegalArgumentException e){
+                                label.setText("I got stuck!");
+                                e.printStackTrace();
+                            }catch (Exception e) {
+                                label.setText("Add Kibus and his house first");
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                };
+                    };
+                }
+                else{
+                    t = new Thread(){
+                        public void run(){
+                            try{
+                                Image image;
+                                ImageIcon io;
+                                image = ImageIO.read(getClass().getResource("mombo.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                mombo.searchHouse(houseNode, initialNode);
+                                image = ImageIO.read(getClass().getResource("pirolo.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                pirolo.searchHouse(houseNode, initialNode);
+                                image = ImageIO.read(getClass().getResource("lucas.png"));
+                                io = new ImageIcon(image);
+                                agentIcon.setIcon(io);
+                                lucas.searchHouse(houseNode, initialNode);
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+
+                        }
+                    };
+                }
                 t.start();
+
             }
         });
         setAgentBtn.addActionListener(iconListener);
@@ -144,7 +188,7 @@ public class UI extends JFrame implements MapListener{
 
         //Setting Panels
         JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(14, 0));
+        rightPanel.setLayout(new GridLayout(15, 0));
         rightPanel.add(setAgentBtn);
         rightPanel.add(setHouseBtn);
         rightPanel.add(new JLabel("Percentage of Obstacles:"));
@@ -157,6 +201,12 @@ public class UI extends JFrame implements MapListener{
         rightPanel.add(ravineSlider);
         rightPanel.add(training);
         rightPanel.add(initBtn);
+        JPanel progressBarPanel = new JPanel();
+        progressBarPanel.setLayout(new FlowLayout());
+        progressBarPanel.add(agentIcon);
+        progressBarPanel.add(trainingBar);
+        rightPanel.add(progressBarPanel);
+        trainingBar.setStringPainted(true);
         mapPanel.setLayout(new GridLayout(15, 15));
         initMap();
         update();
@@ -280,13 +330,22 @@ public class UI extends JFrame implements MapListener{
     }
 
     @Override
+    public void finishRoute(int iteration){
+        int percentage = iteration * 100 / (Agent.ITERATIONS - 1);
+        trainingBar.setValue(percentage);
+    }
+
+    @Override
     public void mapChanged(boolean withDelay){
-        if (training.isSelected()){
+        if (training.isSelected() && !trainingDone){
             update();
-            if(withDelay){
-                try{
+        }
+        else if(trainingDone){
+            update();
+            if(withDelay) {
+                try {
                     Thread.sleep(500);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -306,44 +365,74 @@ public class UI extends JFrame implements MapListener{
 
         public void actionPerformed(ActionEvent event){
             JButton button = (JButton)event.getSource();
-            String name = button.getText();
-            if(name.contains("Agent") && !settingKibus){
-                settingHouse = false;
-                settingKibus = true;
-            }
-            else if(name.contains("House") && !settingHouse){
-                settingKibus = false;
-                settingHouse = true;
+            if(!trainingDone){
+                String name = button.getText();
+                if(name.contains("Agent") && !settingKibus){
+                    settingHouse = false;
+                    settingKibus = true;
+                }
+                else if(name.contains("House") && !settingHouse){
+                    settingKibus = false;
+                    settingHouse = true;
+                }
+                else{
+                    try{
+                        int position = Integer.parseInt(event.getActionCommand());
+                        if(settingKibus){
+                            int pastPosition = -1;
+                            if(actualKibus != null){
+                                pastPosition = Integer.parseInt(actualKibus.getActionCommand());
+                            }
+                            Coord coord = map.setObjects(position, pastPosition, Mapa.AGENT);
+                            agentsCoord = coord;
+                            initialNode = new Node(agentsCoord);
+                            actualKibus = button;
+                            settingKibus = false;
+
+                        }
+                        else if(settingHouse) {
+                            int pastPosition = -1;
+                            if(actualHouse != null){
+                                pastPosition = Integer.parseInt(actualHouse.getActionCommand());
+                            }
+                            Coord coord = map.setObjects(position, pastPosition, Mapa.HOUSE);
+                            houseNode = new Node(coord);
+                            actualHouse = button;
+                            settingHouse = false;
+                        }
+                    }catch(Exception e){
+                        throw new RuntimeException(e);
+                    }
+                }
             }
             else{
-                try{
-                    int position = Integer.parseInt(event.getActionCommand());
-                    if(settingKibus){
-                        int pastPosition = -1;
-                        if(actualKibus != null){
-                            pastPosition = Integer.parseInt(actualKibus.getActionCommand());
+                int position = Integer.parseInt(event.getActionCommand());
+                Coord coord = graph.getNode(position);
+                Node node = graph.getNode(coord);
+                Thread t = new Thread(){
+                    public void run(){
+                        try{
+                            Image image;
+                            ImageIcon io;
+                            image = ImageIO.read(getClass().getResource("mombo.png"));
+                            io = new ImageIcon(image);
+                            agentIcon.setIcon(io);
+                            mombo.searchHouse(houseNode, node);
+                            image = ImageIO.read(getClass().getResource("pirolo.png"));
+                            io = new ImageIcon(image);
+                            agentIcon.setIcon(io);
+                            pirolo.searchHouse(houseNode, node);
+                            image = ImageIO.read(getClass().getResource("lucas.png"));
+                            io = new ImageIcon(image);
+                            agentIcon.setIcon(io);
+                            lucas.searchHouse(houseNode, node);
+                        }catch(Exception e){
+                            e.printStackTrace();
                         }
-                        Coord coord = map.setObjects(position, pastPosition, Mapa.AGENT);
-                        agentsCoord = coord;
-                        initialNode = new Node(agentsCoord);
-                        actualKibus = button;
-                        settingKibus = false;
 
                     }
-                    else if(settingHouse) {
-                        int pastPosition = -1;
-                        if(actualHouse != null){
-                            pastPosition = Integer.parseInt(actualHouse.getActionCommand());
-                        }
-                        Coord coord = map.setObjects(position, pastPosition, Mapa.HOUSE);
-                        houseNode = new Node(coord);
-                        actualHouse = button;
-                        settingHouse = false;
-                    }
-                }catch(Exception e){
-                    throw new RuntimeException(e);
-                }
-
+                };
+                t.start();
             }
         }
 

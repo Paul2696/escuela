@@ -11,10 +11,10 @@ public class Graph {
         nodes.put(node.coord, node);
     }
 
-    public Effort createEdge(Node node1, Node node2){
+    public Effort createEdge(Node originNode, Node destinationNode){
         Effort effort = new Effort();
-        effort.setNode1(node1);
-        effort.setNode2(node2);
+        effort.setOriginNode(originNode);
+        effort.setDestinationNode(destinationNode);
         edges.add(effort);
         return effort;
     }
@@ -35,7 +35,7 @@ public class Graph {
     public Coord getNode(int nodeNumber){
         int coordenada1 = nodeNumber / Mapa.dimensionX;
         int coordenada2 = nodeNumber % Mapa.dimensionY;
-        Coord coord = new Coord(coordenada1, coordenada2);
+        Coord coord = new Coord(coordenada2, coordenada1);
         return coord;
     }
 }

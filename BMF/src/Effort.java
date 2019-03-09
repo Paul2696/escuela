@@ -3,22 +3,14 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Effort {
-    private Set<Node> nodes = new HashSet<>(2);
+    private Node originNode;
+    private Node destinationNode;
     private double eM;
     private double eP;
     private double eL;
-    private double wM = 500000;
-    private double wP = 500000;
-    private double wL = 500000;
-
-    public Node getNeighborNode(Node node){
-        for(Node n : nodes){
-            if(node != n){
-                return n;
-            }
-        }
-        return null;
-    }
+    private double wM = 5000000;
+    private double wP = 5000000;
+    private double wL = 5000000;
 
     public double getWeight(int agentType){
         if(agentType == Mapa.MOMBO){
@@ -56,16 +48,20 @@ public class Effort {
     public void setwL(double wL) {
         this.wL = wL;
     }
-    public void setNode1(Node node1) {
-        nodes.add(node1);
+    public void setOriginNode(Node originNode) {
+        this.originNode = originNode;
     }
 
-    public void setNode2(Node node2) {
-        nodes.add(node2);
+    public void setDestinationNode(Node destinationNode) {
+        this.destinationNode = destinationNode;
     }
 
-    public Set<Node> getNodes(){
-        return nodes;
+    public Node getOriginNode(){
+        return originNode;
+    }
+
+    public Node getDestinationNode(){
+        return destinationNode;
     }
 
     public double geteM() {
@@ -97,11 +93,12 @@ public class Effort {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Effort effort = (Effort) o;
-        return nodes.equals(((Effort) o).getNodes());
+        return originNode.equals(effort.originNode) &&
+                destinationNode.equals(effort.destinationNode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nodes);
+        return Objects.hash(originNode, destinationNode);
     }
 }

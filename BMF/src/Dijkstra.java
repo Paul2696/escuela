@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Dijkstra {
     private final int MAX = Integer.MAX_VALUE;  //maximo numero de vértices
-    private final int INF = 1<<30;  //definimos un valor grande que represente la distancia infinita inicial, basta conque sea superior al maximo valor del peso en alguna de las aristas
+    private final int INF = Integer.MAX_VALUE;  //definimos un valor grande que represente la distancia infinita inicial, basta conque sea superior al maximo valor del peso en alguna de las aristas
 
     private double distancia[ ] = new double[ 225 ];          //distancia[ u ] distancia de vértice inicial a vértice con ID = u
     private boolean visitado[ ] = new boolean[ 225 ];   //para vértices visitados
@@ -22,7 +22,7 @@ public class Dijkstra {
 
     //función de inicialización
     private void init(){
-        for( int i = 0 ; i <= V ; ++i ){
+        for( int i = 0 ; i < V ; ++i ){
             distancia[i] = INF;  //inicializamos todas las distancias con valor infinito
             visitado[i] = false; //inicializamos todos los vértices como no visitados
             previo[i] = -1;      //inicializamos el previo del vertice i con -1
@@ -51,7 +51,22 @@ public class Dijkstra {
         double peso;
         while( !Q.isEmpty() ){                   //Mientras cola no este vacia
             actual = Q.element();            //Obtengo de la cola el nodo con menor peso, en un comienzo será el inicial
-            Q.remove();                           //Sacamos el elemento de la cola
+            Q.remove();//Sacamos el elemento de la cola
+            if(actual.coord.x == 13 && actual.coord.y == 10){
+                System.out.println("llego");
+            }
+            if(actual.coord.x == 14 && actual.coord.y == 9){
+                System.out.println("llego");
+            }
+            if(actual.coord.x == 14 && actual.coord.y == 11){
+                System.out.println("llego");
+            }
+            if(actual.coord.x == 13 && actual.coord.y == 11){
+                System.out.println("llego");
+            }
+            if(actual.coord.x == 13 && actual.coord.y == 9){
+                System.out.println("llego");
+            }
             if(visitado[actual.nodeNumber]) continue; //Si el vértice actual ya fue visitado entonces sigo sacando elementos de la cola
             visitado[actual.nodeNumber] = true;         //Marco como visitado el vértice actual
 
@@ -60,7 +75,7 @@ public class Dijkstra {
                 if(effort == null){
                     continue;
                 }
-                adyacente = effort.getNeighborNode(actual);   //id del vertice adyacente
+                adyacente = effort.getDestinationNode();   //id del vertice adyacente
                 peso = effort.getWeight(agentType);        //peso de la arista que une actual con adyacente ( actual , adyacente )
                 if(!visitado[adyacente.nodeNumber]){        //si el vertice adyacente no fue visitado
                     relajacion( actual , adyacente , peso ); //realizamos el paso de relajacion
