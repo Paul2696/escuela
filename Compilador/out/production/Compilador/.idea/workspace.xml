@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f08aaddd-c7b7-4e6d-942e-4ca72aa12a15" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../BMF/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BMF/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BMF/out/production/BMF/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/../BMF/out/production/BMF/Agent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BMF/out/production/BMF/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../BMF/out/production/BMF/UI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BMF/src/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BMF/src/Agent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexico.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorSintactico.java" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSintactico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Compilador/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Compilador/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Compilador/AnalizadorLexico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Compilador/AnalizadorLexico.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Compilador/AnalizadorSintactico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Compilador/AnalizadorSintactico.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Kibus/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Kibus/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -23,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AnalizadorLexico.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-555">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="491">
+              <caret line="230" column="50" selection-start-line="230" selection-start-column="50" selection-end-line="230" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#214#215#0" expanded="true" />
@@ -37,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AnalizadorSintactico.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="131" column="52" lean-forward="true" selection-start-line="131" selection-start-column="52" selection-end-line="131" selection-end-column="52" />
+            <state relative-caret-position="345">
+              <caret line="50" column="45" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -46,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Token.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="33" />
+            <state relative-caret-position="30">
+              <caret line="2" column="13" lean-forward="true" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -55,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gramatica.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+            <state relative-caret-position="630">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
             </state>
           </provider>
         </entry>
@@ -111,7 +113,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551403110162" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553571137016" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -125,7 +127,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.AnalizadorSintactico">
+  <component name="RunManager" selected="Application.AnalizadorLexico">
     <configuration name="AnalizadorLexico" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="AnalizadorLexico" />
       <module name="Compilador" />
@@ -142,8 +144,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.AnalizadorSintactico" />
         <item itemvalue="Application.AnalizadorLexico" />
+        <item itemvalue="Application.AnalizadorSintactico" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +165,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1920" height="935" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25773746" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27908218" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -191,26 +193,38 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/AnalizadorSintactico.java</url>
+          <line>162</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Node.java" />
-    <entry file="file://$PROJECT_DIR$/Token.java">
+    <entry file="file://$PROJECT_DIR$/gramatica.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="33" />
+        <state relative-caret-position="630">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gramatica.txt">
+    <entry file="file://$PROJECT_DIR$/Token.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        <state relative-caret-position="30">
+          <caret line="2" column="13" lean-forward="true" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AnalizadorLexico.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-555">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="491">
+          <caret line="230" column="50" selection-start-line="230" selection-start-column="50" selection-end-line="230" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#214#215#0" expanded="true" />
@@ -221,8 +235,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AnalizadorSintactico.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="131" column="52" lean-forward="true" selection-start-line="131" selection-start-column="52" selection-end-line="131" selection-end-column="52" />
+        <state relative-caret-position="345">
+          <caret line="50" column="45" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
         </state>
       </provider>
     </entry>

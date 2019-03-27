@@ -203,6 +203,7 @@ public class AnalizadorLexico {
 			token = new Token(str.toString(), Token.CHAR);
 		}
 		state = 0;
+		System.out.println(token.token);
 		return token;
 	}
 
