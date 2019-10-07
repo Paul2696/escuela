@@ -1,0 +1,9 @@
+com/transparencia/db/DataBaseManager.class
+com/transparencia/manager/FuncionarioGobierno.class
+com/transparencia/rest/FuncionarioEndpoint.class
+com/transparencia/rest/App.class
+com/transparencia/manager/DocumentManager.class
+com/transparencia/rest/DocumentEndpoint.class
+com/transparencia/manager/DocumentoTransparencia.class
+com/transparencia/manager/Reporte.class
+com/transparencia/manager/FuncionarioManager.class

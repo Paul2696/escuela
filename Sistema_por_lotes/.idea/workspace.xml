@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9c925463-ffbe-4d1c-9a41-ffca30d97813" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1PzRhd44junehneFPkwh8PplK9D" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Sistema por lotes" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="UI" />
+      <module name="Sistema por lotes" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9c925463-ffbe-4d1c-9a41-ffca30d97813" name="Default Changelist" comment="" />
+      <created>1566875061112</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566875061112</updated>
+      <workItem from="1566875075107" duration="85000" />
+      <workItem from="1566915124935" duration="6169000" />
+      <workItem from="1567018556840" duration="8393000" />
+      <workItem from="1567028826496" duration="10739000" />
+      <workItem from="1567049376763" duration="7924000" />
+      <workItem from="1567057480450" duration="3566000" />
+      <workItem from="1567435903028" duration="15000" />
+      <workItem from="1567523758431" duration="167000" />
+      <workItem from="1568053858781" duration="10841000" />
+      <workItem from="1568077289156" duration="2055000" />
+      <workItem from="1568124878086" duration="6182000" />
+      <workItem from="1568221812621" duration="13973000" />
+      <workItem from="1568297981726" duration="2220000" />
+      <workItem from="1568595666212" duration="80000" />
+      <workItem from="1569334717823" duration="26738000" />
+      <workItem from="1569848164860" duration="19000" />
+      <workItem from="1569882210759" duration="9248000" />
+      <workItem from="1569908761751" duration="6551000" />
+      <workItem from="1570061787919" duration="5355000" />
+      <workItem from="1570306178109" duration="125000" />
+      <workItem from="1570415864213" duration="3378000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UI.java</url>
+          <line>340</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="operation1.number1" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
