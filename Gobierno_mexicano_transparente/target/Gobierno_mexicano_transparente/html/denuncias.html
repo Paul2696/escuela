@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>G T M - Denuncias</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/animate.css">
+	<link href="../css/animate.min.css" rel="stylesheet"> 
+	<link href="../css/style.css" rel="stylesheet" />
+    <script src="../js/lib/jquery-3.3.1.min.js"></script>
+    <script src="../js/lib/knockout-3.4.2.js"></script>
+    <script src="../js/PostDenuncia.js"></script>
+  </head>
+  <body>	
+	<header id="header">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <a href="../index.html"><h1>G T M</h1></a>
+                    </div>
+                </div>          
+                                            
+                    <div class="menu">
+                        <ul class="nav nav-tabs">
+                            <li ><a href="../index.html" class="active">Inicio</a></li>
+                            <li ><a>Documentos</a>
+                                <ul class="nav">
+                                    <li><a href="log_in.html">Subir Documento</a></li>
+                                    <li><a href="consultas.html">Consultas</a></li>
+                                </ul>
+                            </li>
+                            <li ><a href="sancionados.html">Sancionados</a></li>
+                            <li ><a href="denuncias.html">Denuncias</a></li>                    
+                        </ul>
+                    </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->       
+    </header><!--/header--> 	
+	
+    <div class="slider">
+		<div id="about-slider">
+		    <div class="item active">
+			    <img src="../img/fondo9.jpg">
+				    <div class="carousel-caption">
+						<div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
+							<h2><span>DENUNCIAS</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section class="contact-page">
+        <div class="container">
+            <div class="row contact-wrap"> 
+                <div class="status alert alert-success" style="display: none"></div>
+                <form id="main-contact-form" class="contact-form" name="contact-form">
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <div class="form-group">
+                        	<br><br>
+                            <label>Nombre del Denunciante:</label>
+                            <input type="name" name="name" class="form-control">
+                        </div>
+                                              
+                    </div>
+                    <div class="col-sm-5">
+                    	<div class="form-group">
+                    		<br><br>
+                            <label>Nombre del Funcionario a Denunciar: *</label>
+                            <input data-bind="textInput: involucrados" type="name" name="email" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label>Mensaje: *</label>
+                            <textarea data-bind="textInput: mensaje" name="message" id="message" required="required" class="form-control" rows="8"></textarea>
+                        </div>                        
+                        <div class="form-group">
+                            <button type="submit" name="submit" class="btn btn-primary btn-lg" required="required">Enviar Denuncia</button>
+                        </div>
+                    </div>
+                </form> 
+            </div><!--/.row-->
+        </div><!--/.container-->
+    </section><!--/#contact-page-->
+	
+
+	<div class="sub-footer">
+		<div class="container">
+			<div class="col-md-4 col-md-offset-4">
+				
+			</div>						
+		</div>				
+	</div>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->	
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>	
+	<script src="../js/wow.min.js"></script>
+	<script>
+	wow = new WOW(
+	 {
+	
+		}	) 
+		.init();
+	</script>	
+  </body>
+</html>

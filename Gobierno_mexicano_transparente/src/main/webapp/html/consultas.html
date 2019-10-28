@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>G T M - Consultas de Documentos</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/animate.css">
+	<link href="../css/animate.min.css" rel="stylesheet"> 
+	<link href="../css/style.css" rel="stylesheet" />
+	<script src="../js/lib/jquery-3.3.1.min.js"></script>
+	<script src="../js/lib/knockout-3.4.2.js"></script>
+	<script type="text/javascript" src="../js/GetDocument.js"></script>
+
+	<!--Buscador-->
+    <script language="javascript">
+		//Empieza código del buscador
+		function doSearch()
+		{
+			var tableReg = document.getElementById('datos');
+			var searchText = document.getElementById('searchTerm').value.toLowerCase();
+			var cellsOfRow="";
+			var found=false;
+			var compareWith="";
+ 
+			// Recorremos todas las filas con contenido de la tabla
+			for (var i = 1; i < tableReg.rows.length; i++)
+			{
+				cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+				found = false;
+				// Recorremos todas las celdas
+				for (var j = 0; j < cellsOfRow.length && !found; j++)
+				{
+					compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+					// Buscamos el texto en el contenido de la celda
+					if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
+					{
+						found = true;
+					}
+				}
+				if(found)
+				{
+					tableReg.rows[i].style.display = '';
+				} else {
+					// si no ha encontrado ninguna coincidencia, esconde la
+					// fila de la tabla
+					tableReg.rows[i].style.display = 'none';
+				}
+			}
+		}
+	</script>
+    
+	<style>
+		#datos	{border:1px solid #ccc;padding:10px;}
+		#datos tr:nth-child(even) {background:#ccc;}
+		#datos td {padding:5px;}
+	</style>
+</head> 
+
+  </head>
+  <body>	
+	<header id="header">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                	<div class="navbar-brand">
+						<a href="../index.html"><h1>G T M</h1></a>
+					</div>
+                </div>			
+                							
+					<div class="menu">
+						<ul class="nav nav-tabs">
+							<li ><a href="../index.html" class="active">Inicio</a></li>
+							<li ><a>Documentos</a>
+								<ul class="nav">
+									<li><a href="log_in.html">Subir Documento</a></li>
+									<li><a href="consultas.html">Consultas</a></li>
+								</ul>
+							</li>
+							<li ><a href="sancionados.html">Sancionados</a></li>
+							<li ><a href="denuncias.html">Denuncias</a></li>					
+						</ul>
+					</div>
+            </div><!--/.container-->
+        </nav><!--/nav-->		
+    </header><!--/header-->	
+
+	<div class="slider">
+		<div id="about-slider">
+		    <div class="item active">
+			    <img src="../img/fondo9.jpg">
+				    <div class="carousel-caption">
+						<div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
+							<h2><span>CONSULTA DE DOCUMENTOS</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="about">
+		<div class="container">
+			<div class="text-center">
+				<h2>DOCUMENTOS SUBIDOS</h2><br/>
+                    <form>
+						<a style="float:left; color:#000"> Buscar Documento </a> <input size="40" id="searchTerm" type="text" onkeyup="doSearch()" style="float: left; color:#000"/>
+					</form>
+                    <br/>
+                    <br/>
+					<table id="datos">
+						<thead>
+							<tr>
+								<th><h3>	DOCUMENTO DE PROYECTO	</h3></th>
+								<th><h3>	FECHA	</h3></th>
+							</tr>
+						</thead>
+						
+						<tbody data-bind="foreach: documents">
+				  			<tr>
+				  				<td><h3><a data-bind="text: nombreDocumento, attr: {href: $data.url}"></a></h3></td>
+				  				<td><h3 data-bind="text: date"></h3></td>
+				  			</tr>
+				  		</tbody>
+					</table>
+			</div>	
+		</div>			
+	</div>
+	
+	<div class="sub-footer">
+		<div class="container">
+			<div class="col-md-4 col-md-offset-4">	
+			</div>						
+		</div>				
+	</div>
+			
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>	
+	<script src="../js/wow.min.js"></script>
+	<script>
+	wow = new WOW(
+	 {
+	
+		}	) 
+		.init();
+	</script>	
+  </body>
+</html>
