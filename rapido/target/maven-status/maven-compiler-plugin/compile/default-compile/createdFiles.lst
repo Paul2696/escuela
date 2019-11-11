@@ -1,0 +1,10 @@
+com/rapido/persistence/dao/DBManager.class
+com/rapido/rest/OfertaApp.class
+Main.class
+com/rapido/persistence/model/Profesor.class
+com/rapido/persistence/model/Horario.class
+com/rapido/rest/OfertaEndpoint.class
+com/rapido/persistence/model/Seccion.class
+com/rapido/persistence/dao/SQLScripts.class
+com/rapido/persistence/model/Materia.class
+com/rapido/persistence/model/Ciclo.class
