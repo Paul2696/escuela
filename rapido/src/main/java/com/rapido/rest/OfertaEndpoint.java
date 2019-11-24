@@ -7,9 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
@@ -97,15 +95,31 @@ public class OfertaEndpoint {
             System.out.println(materias.size());
             System.out.println(profesors.size());
             System.out.println(seccions.size());
+            System.out.println("Ciclo: ");
             System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Ciclo")));
+            System.out.println("Materia: ");
             System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Materia")));
+            System.out.println("Profesores: ");
             System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Profesores")));
+            System.out.println("Seccion: ");
             System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Seccion")));
+            System.out.println("Horario: ");
             System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Horario")));
         }catch(Exception e){
             e.printStackTrace();
             return Response.status(500).build();
         }
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDataBase(){
+        System.out.println(dbManager.consultCicloTable(SQLScripts.getTable("Ciclo")));
+        System.out.println(dbManager.consultMateriaTable(SQLScripts.getTable("Materia")));
+        System.out.println(dbManager.consultProfesorTable(SQLScripts.getTable("Profesores")));
+        System.out.println(dbManager.consultSeccionTable(SQLScripts.getTable("Seccion")));
+        System.out.println(dbManager.consultHorarioTable(SQLScripts.getTable("Horario")));
         return Response.ok().build();
     }
 

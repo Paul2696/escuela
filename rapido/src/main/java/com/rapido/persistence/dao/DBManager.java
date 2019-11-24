@@ -70,8 +70,8 @@ public class DBManager{
             while(rs.next()) {
                 Ciclo ciclo = new Ciclo();
                 ciclo.setIdCiclo(rs.getString("idCiclo"));
-                ciclo.setInicio(new SimpleDateFormat("EEE, MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH).parse(rs.getString("FECHA_INICIO")));
-                ciclo.setFin(new SimpleDateFormat("EEE, MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH).parse(rs.getString("FECHA_FIN")));
+                ciclo.setInicio(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(rs.getString("FECHA_INICIO")));
+                ciclo.setFin(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(rs.getString("FECHA_FIN")));
                 ciclos.add(ciclo);
             }
         } catch (SQLException | ParseException var6) {
